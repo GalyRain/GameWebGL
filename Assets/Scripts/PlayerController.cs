@@ -1,23 +1,21 @@
 using System;
 using System.Diagnostics;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour {
-    //private Rigidbody rigidbody;
 
     private string resultScene = "ResultsScene";
-    private string hometScene = "MainScene";
+    private string homeScene = "MainScene";
     private float horizontal = 0f;
     private float vertical = 0f;
     public float speed = 2f; 
-    string fileName = "result.json";
 
     Stopwatch watch = new Stopwatch();
-    SceneChanger newScene = new SceneChanger();
+
+    [SerializeField] private SceneChanger SceneChanger;
 
     void Start() {
-        //rigidbody = GetComponent<Rigidbody>();
-        
         watch.Start();
     }
 
@@ -31,19 +29,17 @@ public class PlayerController : MonoBehaviour {
         Vector3 move = new Vector3(horizontal, 0.0f, vertical);
 
         transform.position += move * speed * Time.fixedDeltaTime;
-        // rigidbody.velocity = new Vector3(horizontal * speed * Time.fixedDeltaTime, 0.0f, rigidbody.velocity.y * speed * Time.fixedDeltaTime);
 
         if (Input.GetKeyDown(KeyCode.Escape)) {
-            newScene.ChangeScene(hometScene);
+            SceneManager.LoadScene(homeScene);
+            Application.Quit();
         }
-
     }
 
     private void Finish() {
         watch.Stop();
         TimeSpan ts = watch.Elapsed;
-        SaveResult saveResult = new SaveResult();        
-        saveResult.AddNewResult(fileName, ts);
+        Result.AddNewResult(ts);
         GameState.State = GameState.States.Pass;
     }
 
@@ -57,6 +53,8 @@ public class PlayerController : MonoBehaviour {
             UnityEngine.Debug.Log("Faild");
             GameState.State = GameState.States.Faild;
         }
-        newScene.ChangeScene(resultScene);
+
+        SceneManager.LoadScene(resultScene);
+        Application.Quit();
     }
 }

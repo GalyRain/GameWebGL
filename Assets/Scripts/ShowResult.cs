@@ -1,33 +1,38 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class ShowResult : MonoBehaviour {
 
-    string fileName = "result.json";
-    private string hometcene = "MainScene";
+    private string homeScene = "MainScene";
 
-    SceneChanger newScene = new SceneChanger();
     [SerializeField] private Text ResultText;
     [SerializeField] private Text InformText;
 
     void Start() {
-        SaveResult saveResult = new SaveResult();
-        ResultCollection resultCollection = saveResult.ReadFile(fileName);
+        ResultCollection resultCollection = Result.TakeResult();
 
         if (resultCollection.results.Length != 0) {
             ResultText.text = resultCollection.results[resultCollection.results.Length - 1].time;
         } 
         else {
-            ResultText.text = "Упс! Тут пока ничего нет))";
+            ResultText.text = "Oops! There is nothing here yet))";
         }
 
         switch (GameState.State) {
-            case GameState.States.Faild: {
-                    InformText.text = "Вы проиграли";
+            case GameState.States.Faild:
+                {
+                    if (InformText != null) {
+                        InformText.text = "You've lost((";
+                    }
                     break;
                 }
-            case GameState.States.Pass: {
-                    InformText.text = "Вы выиграли";
+            case GameState.States.Pass:
+                {
+                    if(InformText != null)
+                    {
+                        InformText.text = "You have won!";
+                    }
                     break;
                 }
             default: break;
@@ -36,7 +41,8 @@ public class ShowResult : MonoBehaviour {
 
     void FixedUpdate() {
         if (Input.GetKeyDown(KeyCode.Escape)) {
-            newScene.ChangeScene(hometcene);
+            SceneManager.LoadScene(homeScene);
+            Application.Quit();
         }
     }
 }

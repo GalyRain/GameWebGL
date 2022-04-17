@@ -1,11 +1,14 @@
 # =============== #
 # Unity generated #
 # =============== #
-Temp/
-Logs/
-Obj/
-UnityGenerated/
+Temp/**
+/Temp/*
+Logs/**
+/Logs/*
+Obj/**
+UnityGenerated/**
 Library/
+/Library/*
 Assets/AssetStoreTools*
 
 # ===================================== #
@@ -17,6 +20,7 @@ ExportedObj/
 *.csproj
 *.pidb
 *.suo
+*.log
 *.sln
 *.user
 *.unityproj
