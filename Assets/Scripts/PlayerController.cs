@@ -9,8 +9,9 @@ public class PlayerController : MonoBehaviour {
     private string homeScene = "MainScene";
     private float horizontal = 0f;
     private float vertical = 0f;
-    public float speed = 2f; 
+    public float speed = 2f;
 
+    SceneChanger newScene = new SceneChanger();
     Stopwatch watch = new Stopwatch();
 
     [SerializeField] private SceneChanger SceneChanger;
@@ -31,8 +32,7 @@ public class PlayerController : MonoBehaviour {
         transform.position += move * speed * Time.fixedDeltaTime;
 
         if (Input.GetKeyDown(KeyCode.Escape)) {
-            SceneManager.LoadScene(homeScene);
-            Application.Quit();
+            newScene.ChangeScene(homeScene);
         }
     }
 
@@ -45,16 +45,16 @@ public class PlayerController : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other) {
 
-        if (other.CompareTag("Finish")) {
+        if (other.CompareTag("Finish"))
+        {
             Finish();
         }
 
-        if (other.CompareTag("Faild")) {
+        if (other.CompareTag("Faild"))
+        {
             UnityEngine.Debug.Log("Faild");
             GameState.State = GameState.States.Faild;
         }
-
-        SceneManager.LoadScene(resultScene);
-        Application.Quit();
+        newScene.ChangeScene(resultScene);
     }
 }

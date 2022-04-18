@@ -1,9 +1,10 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class ShowResult : MonoBehaviour {
 
+
+    SceneChanger newScene = new SceneChanger();
     private string homeScene = "MainScene";
 
     [SerializeField] private Text ResultText;
@@ -41,8 +42,7 @@ public class ShowResult : MonoBehaviour {
 
     void FixedUpdate() {
         if (Input.GetKeyDown(KeyCode.Escape)) {
-            SceneManager.LoadScene(homeScene);
-            Application.Quit();
+            newScene.ChangeScene(homeScene);
         }
     }
 }
